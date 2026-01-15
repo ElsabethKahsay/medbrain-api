@@ -6,13 +6,101 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  FRIENDS
+}
+
+enum EntryStatus {
+  PENDING_REVIEW
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum EntryType {
+  RESEARCH_PAPER
+  QUOTE
+  SUMMARY
+  CASE_STUDY
+  PERSONAL_NOTE
+  IMAGE_LINK
+  STATISTICS
+  FUN_FACT
+}
+
+enum Field {
+  MEDICINE
+  PSYCHOLOGY
+  PHYSICS
+  CHEMISTRY
+  BIOLOGY
+  SCIENCE
+  BOOKS
+  HISTORY
+  TECHNOLOGY
+  ART
+  ANIMALS
+  SPACE
+  PLANTS
+  MUSIC
+  SPORTS
+  MOVIES
+  GAMES
+  FOOD
+  FASHION
+  CRIME
+  MONEY
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String    @id @default(uuid())
+  email     String    @unique
   password  String
   name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  projects  Project[]
+  entries   Entry[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Project {
+  id           String      @id @default(uuid())
+  title        String
+  description  String
+  introduction String
+  type         Field
+  status       EntryStatus
+  tags         String[]
+  source       String?
+  sourceLink   String?
+  visibility   Visibility  @default(PUBLIC)
+  entriesCount Int         @default(0)
+  rating       Float       @default(0)
+  userId       String
+  user         User        @relation(fields: [userId], references: [id])
+  entries      Entry[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Entry {
+  id          String      @id @default(uuid())
+  title       String
+  description String
+  type        EntryType
+  status      EntryStatus
+  tags        String[]
+  source      String?
+  sourceLink  String?
+  visibility  Visibility  @default(PUBLIC)
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  projectId   String?
+  project     Project?    @relation(fields: [projectId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }

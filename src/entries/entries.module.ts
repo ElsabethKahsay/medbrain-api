@@ -6,4 +6,11 @@ import { EntriesService } from './entries.service';
   controllers: [EntriesController],
   providers: [EntriesService]
 })
-export class EntriesModule {}
+export class EntriesModule {
+
+  constructor(private readonly entriesService: EntriesService) { }  
+
+  async onModuleInit() {
+    await this.entriesService.createDefaultEntries();
+  }
+}
