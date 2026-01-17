@@ -9,52 +9,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Visibility {
-  PUBLIC
-  PRIVATE
-  FRIENDS
-}
-
-enum EntryStatus {
-  PENDING_REVIEW
-  IN_PROGRESS
-  COMPLETED
-}
-
-enum EntryType {
-  RESEARCH_PAPER
-  QUOTE
-  SUMMARY
-  CASE_STUDY
-  PERSONAL_NOTE
-  IMAGE_LINK
-  STATISTICS
-  FUN_FACT
-}
-
-enum Field {
-  MEDICINE
-  PSYCHOLOGY
-  PHYSICS
-  CHEMISTRY
-  BIOLOGY
-  SCIENCE
-  BOOKS
-  HISTORY
-  TECHNOLOGY
-  ART
-  ANIMALS
-  SPACE
-  PLANTS
-  MUSIC
-  SPORTS
-  MOVIES
-  GAMES
-  FOOD
-  FASHION
-  CRIME
-  MONEY
-}
 
 model User {
   id        String    @id @default(uuid())
